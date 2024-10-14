@@ -1,0 +1,8 @@
+com\pfms\User.class
+com\pfms\MongoDBConnection.class
+com\pfms\InvestmentManager.class
+com\pfms\TransactionNode.class
+com\pfms\InvestmentOption.class
+com\pfms\TransactionManager.class
+com\pfms\BudgetManager.class
+com\pfms\PFMS.class
