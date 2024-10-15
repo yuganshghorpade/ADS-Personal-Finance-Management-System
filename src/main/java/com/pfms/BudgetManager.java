@@ -12,7 +12,7 @@ import com.mongodb.client.model.Filters;
 
 public class BudgetManager {
     private HashMap<String, Double> budgetCategories;
-    public static String budgetId;
+    public static ObjectId budgetId;
 
     public BudgetManager() {
         budgetCategories = new HashMap<>();
@@ -22,7 +22,7 @@ public class BudgetManager {
         budgetCategories.put(category, budgetAmount);
     }
 
-    public void submitBudget(String userId){
+    public void submitBudget(ObjectId userId){
         MongoDatabase db = MongoDBConnection.connectToDatabase(); // Connect to the database
         MongoCollection<Document> collection = db.getCollection("budgets"); // Get the collection
 
@@ -32,7 +32,7 @@ public class BudgetManager {
         //     collection.insertOne(doc); // Insert the document into the collection
         // }
 
-        Document userBudgetDocument = new Document("userId", new ObjectId(userId))
+        Document userBudgetDocument = new Document("userId",userId)
                 .append("categories", new Document());
 
         for (Map.Entry<String, Double> entry : budgetCategories.entrySet()) {
@@ -43,6 +43,8 @@ public class BudgetManager {
 
         // Insert the user's budget document into the collection
         collection.insertOne(userBudgetDocument);
+        Document budget = collection.find(Filters.eq("userId", userId)).first();
+        budgetId = budget.getObjectId("_id");
         System.out.println("Budget categories saved to MongoDB successfully.");
     }
 
@@ -65,7 +67,7 @@ public class BudgetManager {
         MongoDatabase db = MongoDBConnection.connectToDatabase(); // Connect to the database
         MongoCollection<Document> collection = db.getCollection("budgets"); // Get the collection
         Document budget = collection.find(Filters.and(
-                Filters.eq("_id", new ObjectId(BudgetManager.budgetId)) // Note: Storing plain text passwords is not secure
+                Filters.eq("_id", BudgetManager.budgetId) // Note: Storing plain text passwords is not secure
         )).first();
         System.out.println("budget"+budget);
     }

@@ -11,7 +11,7 @@ import com.mongodb.client.model.Updates;
 public class User {
 
     public static boolean loggedIn;
-    public static String userId;
+    public static ObjectId userId;
     private String username;
     private String password;  // In practice, this should be hashed.
     // private MongoDBConnection mongoDBConnection;
@@ -35,26 +35,30 @@ public class User {
     public void registerUser(String name, String password) {
         MongoDatabase db = MongoDBConnection.connectToDatabase();
         BudgetManager budgetManager = new BudgetManager();
+        // TransactionManager transactionManager = new TransactionManager(5, loggedIn);
         MongoCollection<Document> collection = db.getCollection("users");
 
         // Create a new user document
         Document newUser = new Document("name", name)
-                .append("password", password); // Make sure to hash the password before storing
+                .append("password", password)
+                .append("transactions",null); // Make sure to hash the password before storing
 
         // Insert the new user into the collection
         // usersCollection.insertOne(newUser);
         collection.insertOne(newUser);
 
-        budgetManager.addCategory("Rent", 50000.0);
-        budgetManager.addCategory("Emi", 30000.0);
-        budgetManager.addCategory("Loan", 10000.0);
-        String userId = newUser.getObjectId("_id").toString();
+        budgetManager.addCategory("Rent", 5.0);
+        budgetManager.addCategory("Emi", 3.0);
+        budgetManager.addCategory("Loan", 1.0);
+        ObjectId userId = newUser.getObjectId("_id");
         budgetManager.submitBudget(userId);
 
-        Document user = collection.find(Filters.eq("_id", new ObjectId(userId))).first();
+        Document user = collection.find(Filters.eq("_id", userId)).first();
+        System.out.println("user"+user);
+        System.out.println(budgetManager.budgetId);
         if (user != null) {
         // Add a new field "budgetId" to the document
-        collection.updateOne(Filters.eq("_id", new ObjectId(userId)), Updates.set("budgetId", new ObjectId(budgetManager.budgetId)));
+        collection.updateOne(Filters.eq("_id", userId), Updates.set("budgetId", budgetManager.budgetId));
 
         System.out.println("Budget ID added to user: " + user.getString("name"));
     } else {
@@ -72,9 +76,9 @@ public class User {
                 Filters.eq("name", name),
                 Filters.eq("password", password) // Note: Storing plain text passwords is not secure
         )).first(); // Fetch the first matching document
-        System.out.println(user);
-        User.userId= user.getObjectId("_id").toString(); // Correct way to get the _id field
-        BudgetManager.budgetId = user.getObjectId("budgetId").toString();
+        System.out.println("this is found user"+user);
+        User.userId= user.getObjectId("_id"); // Correct way to get the _id field
+        BudgetManager.budgetId = user.getObjectId("budgetId");
         // BudgetManager.budgetId = user.getObjectId("").toString();
         System.out.println("heyyy theree");
         if (user == null) {

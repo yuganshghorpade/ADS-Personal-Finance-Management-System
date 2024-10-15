@@ -7,37 +7,50 @@ public class PFMS {
 
         Scanner sc = new Scanner(System.in);
         // Initialize components
-
+        
         //registering user
-        // System.out.println("Enter your details");
-        // System.out.print("Enter your name:");
-        // String name = sc.nextLine();
-        // System.out.print("Enter your password:");
-        // String password = sc.nextLine();
-        // user.registerUser(name, password);
-        
-        
-        //logging user in
         System.out.println("Enter your details");
         System.out.print("Enter your name:");
         String name = sc.nextLine();
         System.out.print("Enter your password:");
         String password = sc.nextLine();
-        
+
         User user = new User(name,password);
+
+        user.registerUser(name, password);
+        
+        
+        //logging user in
+        // System.out.println("Enter your details");
+        // System.out.print("Enter your name:");
+        // String name = sc.nextLine();
+        // System.out.print("Enter your password:");
+        // String password = sc.nextLine();
+        
         BudgetManager bm = new BudgetManager();
         user.loginUser(name, password);
         bm.fetchBudget();
-        TransactionManager transactionManager = new TransactionManager();
+        TransactionBTree transactionManager = new TransactionBTree();
         
         InvestmentManager investmentManager = new InvestmentManager();
         
         // Example usage
-        user.authenticate("password123");  // Authenticate user
+        // user.authenticate("password123");  // Authenticate user
 
         // Add transactions
-        transactionManager.insertTransaction("T001", 250.0);
-        transactionManager.insertTransaction("T002", 150.0);
+
+        transactionManager.insert(100);
+        transactionManager.insert(200);
+        transactionManager.insert(50);
+        transactionManager.insert(60);
+        transactionManager.insert(120);
+        transactionManager.insert(300);
+        transactionManager.insert(70);
+        transactionManager.insert(170);
+
+        transactionManager.displayTree(transactionManager.rootId, 0);
+
+        // Display the tree
 
 
         // budgetManager.updateCategory("Food", 100.0);
