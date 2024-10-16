@@ -10,6 +10,7 @@ import com.mongodb.client.model.Updates;
 
 public class User {
 
+    public static Document user;
     public static boolean loggedIn;
     public static ObjectId userId;
     private String username;
@@ -32,7 +33,7 @@ public class User {
         return false;
     }
 
-    public void registerUser(String name, String password) {
+    public void registerUser(String name, String password, Long salary, Long wallet, Long savings) {
         MongoDatabase db = MongoDBConnection.connectToDatabase();
         BudgetManager budgetManager = new BudgetManager();
         // TransactionManager transactionManager = new TransactionManager(5, loggedIn);
@@ -41,7 +42,10 @@ public class User {
         // Create a new user document
         Document newUser = new Document("name", name)
                 .append("password", password)
-                .append("transactions",null); // Make sure to hash the password before storing
+                .append("transactions",null)
+                .append("salary", salary)
+                .append("wallet", wallet)
+                .append("savings", savings); // Make sure to hash the password before storing
 
         // Insert the new user into the collection
         // usersCollection.insertOne(newUser);
@@ -72,12 +76,12 @@ public class User {
         MongoDatabase db = MongoDBConnection.connectToDatabase();
         MongoCollection<Document> collection = db.getCollection("users");
 
-        Document user = collection.find(Filters.and(
+        User.user = collection.find(Filters.and(
                 Filters.eq("name", name),
                 Filters.eq("password", password) // Note: Storing plain text passwords is not secure
         )).first(); // Fetch the first matching document
         System.out.println("this is found user"+user);
-        User.userId= user.getObjectId("_id"); // Correct way to get the _id field
+        User.userId= User.user.getObjectId("_id"); // Correct way to get the _id field
         BudgetManager.budgetId = user.getObjectId("budgetId");
         // BudgetManager.budgetId = user.getObjectId("").toString();
         System.out.println("heyyy theree");

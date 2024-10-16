@@ -14,10 +14,16 @@ public class PFMS {
         String name = sc.nextLine();
         System.out.print("Enter your password:");
         String password = sc.nextLine();
+        System.out.print("Enter your salary:");
+        Long salary = sc.nextLong();
+        System.out.print("Enter your wallet:");
+        Long wallet = sc.nextLong();
+        System.out.print("Enter your savings:");
+        Long savings = sc.nextLong();
 
         User user = new User(name,password);
 
-        user.registerUser(name, password);
+        user.registerUser(name, password, salary, wallet, savings);
         
         
         //logging user in

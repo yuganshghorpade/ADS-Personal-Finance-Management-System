@@ -457,7 +457,7 @@ import com.mongodb.client.model.Updates;
 
 public class TransactionBTree {
 
-    private static final int T = 2; // Minimum degree (defines the range of children for a node)
+    private static final int T = 5; // Minimum degree (defines the range of children for a node)
 
     // B-Tree Node class
     public static class BTreeNode {
