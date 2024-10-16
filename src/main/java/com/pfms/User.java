@@ -33,7 +33,7 @@ public class User {
         return false;
     }
 
-    public void registerUser(String name, String password, Long salary, Long wallet, Long savings) {
+    public void registerUser(String name, String password, Double salary, Double wallet, Double savings) {
         MongoDatabase db = MongoDBConnection.connectToDatabase();
         BudgetManager budgetManager = new BudgetManager();
         // TransactionManager transactionManager = new TransactionManager(5, loggedIn);

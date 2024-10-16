@@ -3,11 +3,12 @@ package com.pfms;
 import java.util.Scanner;
 
 public class PFMS {
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
         // Initialize components
-        
+
         //registering user
         System.out.println("Enter your details");
         System.out.print("Enter your name:");
@@ -15,36 +16,56 @@ public class PFMS {
         System.out.print("Enter your password:");
         String password = sc.nextLine();
         System.out.print("Enter your salary:");
-        Long salary = sc.nextLong();
+        Double salary = sc.nextDouble();
         System.out.print("Enter your wallet:");
-        Long wallet = sc.nextLong();
+        Double wallet = sc.nextDouble();
         System.out.print("Enter your savings:");
-        Long savings = sc.nextLong();
+        Double savings = sc.nextDouble();
 
-        User user = new User(name,password);
+        User user = new User(name, password);
 
         user.registerUser(name, password, salary, wallet, savings);
-        
-        
+
         //logging user in
         // System.out.println("Enter your details");
         // System.out.print("Enter your name:");
         // String name = sc.nextLine();
         // System.out.print("Enter your password:");
         // String password = sc.nextLine();
-        
         BudgetManager bm = new BudgetManager();
         user.loginUser(name, password);
         bm.fetchBudget();
         TransactionBTree transactionManager = new TransactionBTree();
-        
+
         InvestmentManager investmentManager = new InvestmentManager();
-        
+
+        // Adding investments
+        investmentManager.addInvestmentOption("angelOne", 10.2, 100);
+        investmentManager.addInvestmentOption("angeltwo", 13, 1000);
+        investmentManager.addInvestmentOption("angelthree", 8.7, 400);
+        investmentManager.addInvestmentOption("angelfour", 9.1, 700);
+        investmentManager.addInvestmentOption("angelfive", 10, 200);
+
+// Get best investment (should be angeltwo because of highest SIP rate)
+        System.out.println("Best investment before investing: " + investmentManager.getBestInvestment().name);
+
+// Invest in the best option (should invest in angeltwo)
+        investmentManager.investInBestOption();
+
+// Print the remaining savings
+        System.out.println("Remaining savings: " + investmentManager.getSavings());
+
+        // investmentManager.addInvestmentOption("angelOne", 10.2, 100);
+        // investmentManager.addInvestmentOption("angeltwo", 13, 1000);
+        // investmentManager.addInvestmentOption("angelthree", 8.7, 400);
+        // investmentManager.addInvestmentOption("angelfour", 9.1, 700);
+        // investmentManager.addInvestmentOption("angelfive", 10, 200);
+        // System.out.println(investmentManager.getBestInvestment());
+        // investmentManager.investInBestOption();
+        // System.out.println(investmentManager.getSavings());
         // Example usage
         // user.authenticate("password123");  // Authenticate user
-
         // Add transactions
-
         transactionManager.insert(100);
         transactionManager.insert(200);
         transactionManager.insert(50);
@@ -57,47 +78,34 @@ public class PFMS {
         transactionManager.displayTree(transactionManager.rootId, 0);
 
         // Display the tree
-
-
         // budgetManager.updateCategory("Food", 100.0);
-
         // Add investment options
-        investmentManager.addInvestmentOption("Stock A", 10.5);
-        investmentManager.addInvestmentOption("Stock B", 7.3);
-
-        System.out.println("Best Investment: " + investmentManager.getBestInvestment().name);
+        // System.out.println("Best Investment: " + investmentManager.getBestInvestment().name);
     }
 }
 // package com.pfms;
 
 // import java.util.Scanner;
-
 // public class PFMS {
 //     public static void main(String[] args) {
-
 //         Scanner sc = new Scanner(System.in);
 //         User user = null; // To be initialized after registration or login
 //         boolean isRegistered = false;
 //         boolean isLoggedIn = false;
 //         boolean running = true;
-
 //         // Initialize transactionManager, budgetManager, and investmentManager
 //         TransactionManager transactionManager = new TransactionManager();
 //         BudgetManager budgetManager = new BudgetManager();
 //         InvestmentManager investmentManager = new InvestmentManager();
-
 //         while (running) {
 //             System.out.println("\nPersonal Finance Management System");
-            
 //             // If the user is not registered, show Register option
 //             if (!isRegistered) {
 //                 System.out.println("1. Register User");
 //                 System.out.println("2. Exit");
 //                 System.out.print("Choose an option: ");
-                
 //                 int choice = sc.nextInt();
 //                 sc.nextLine(); // Consume newline
-
 //                 switch (choice) {
 //                     case 1: // Register user
 //                         System.out.print("Enter your name: ");
@@ -105,18 +113,15 @@ public class PFMS {
 //                         System.out.print("Enter your password: ");
 //                         String newPassword = sc.nextLine();
 //                         user = new User(newName, newPassword);
-
 //                         // Register user in the database
 //                         user.registerUser(newName, newPassword);
 //                         isRegistered = true;
 //                         System.out.println("User registered successfully!");
 //                         break;
-
 //                     case 2: // Exit
 //                         running = false;
 //                         System.out.println("Exiting the system. Goodbye!");
 //                         break;
-
 //                     default:
 //                         System.out.println("Invalid choice. Please try again.");
 //                         break;
@@ -128,14 +133,12 @@ public class PFMS {
 //                     System.out.print("Choose an option: ");
 //                     int choice = sc.nextInt();
 //                     sc.nextLine(); // Consume newline
-
 //                     switch (choice) {
 //                         case 1: // Log in
 //                             System.out.print("Enter your name: ");
 //                             String name = sc.nextLine();
 //                             System.out.print("Enter your password: ");
 //                             String password = sc.nextLine();
-                            
 //                             // Authenticate the user
 //                             if (user != null && user.authenticate(password)) {
 //                                 isLoggedIn = true;
@@ -144,12 +147,10 @@ public class PFMS {
 //                                 System.out.println("Invalid name or password. Try again.");
 //                             }
 //                             break;
-
 //                         case 2: // Exit
 //                             running = false;
 //                             System.out.println("Exiting the system. Goodbye!");
 //                             break;
-
 //                         default:
 //                             System.out.println("Invalid choice. Please try again.");
 //                             break;
@@ -163,10 +164,8 @@ public class PFMS {
 //                     System.out.println("4. Log Out");
 //                     System.out.println("5. Exit");
 //                     System.out.print("Choose an option: ");
-                    
 //                     int choice = sc.nextInt();
 //                     sc.nextLine(); // Consume newline
-
 //                     switch (choice) {
 //                         case 1: // Add transaction
 //                             System.out.print("Enter transaction ID: ");
@@ -176,14 +175,12 @@ public class PFMS {
 //                             transactionManager.insertTransaction(transactionId, amount);
 //                             System.out.println("Transaction added successfully!");
 //                             break;
-
 //                         case 2: // Manage budget
 //                             System.out.println("1. Add Category");
 //                             System.out.println("2. Update Category");
 //                             System.out.print("Choose an option: ");
 //                             int budgetChoice = sc.nextInt();
 //                             sc.nextLine(); // Consume newline
-                            
 //                             if (budgetChoice == 1) {
 //                                 System.out.print("Enter category name: ");
 //                                 String category = sc.nextLine();
@@ -202,14 +199,12 @@ public class PFMS {
 //                                 System.out.println("Invalid choice.");
 //                             }
 //                             break;
-
 //                         case 3: // Manage investments
 //                             System.out.println("1. Add Investment Option");
 //                             System.out.println("2. View Best Investment");
 //                             System.out.print("Choose an option: ");
 //                             int investmentChoice = sc.nextInt();
 //                             sc.nextLine(); // Consume newline
-                            
 //                             if (investmentChoice == 1) {
 //                                 System.out.print("Enter investment name: ");
 //                                 String investmentName = sc.nextLine();
@@ -228,17 +223,14 @@ public class PFMS {
 //                                 System.out.println("Invalid choice.");
 //                             }
 //                             break;
-
 //                         case 4: // Log out
 //                             isLoggedIn = false;
 //                             System.out.println("Logged out successfully.");
 //                             break;
-
 //                         case 5: // Exit
 //                             running = false;
 //                             System.out.println("Exiting the system. Goodbye!");
 //                             break;
-
 //                         default:
 //                             System.out.println("Invalid choice. Please try again.");
 //                             break;
