@@ -14,7 +14,7 @@ public class MongoDBConnection {
         // String uri = "mongodb://localhost:27017";
         String uri = "mongodb+srv://yuganshghorpadeviit:WTsEmDUQI2MV8Mes@cluster0.5ogrr.mongodb.net";
         mongoClient = MongoClients.create(uri);
-        System.out.println(mongoClient);
+        // System.out.println(mongoClient);
         return mongoClient.getDatabase("pfms");  // Replace with your database name
     }
 

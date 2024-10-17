@@ -45,7 +45,7 @@ public class BudgetManager {
         collection.insertOne(userBudgetDocument);
         Document budget = collection.find(Filters.eq("userId", userId)).first();
         budgetId = budget.getObjectId("_id");
-        System.out.println("Budget categories saved to MongoDB successfully.");
+        System.out.println(PFMS.GREEN + "Budget categories saved to MongoDB successfully.");
     }
 
     //TODO:
@@ -69,6 +69,6 @@ public class BudgetManager {
         Document budget = collection.find(Filters.and(
                 Filters.eq("_id", BudgetManager.budgetId) // Note: Storing plain text passwords is not secure
         )).first();
-        System.out.println("budget"+budget);
+        System.out.println(PFMS.GREEN + "budget"+budget.get("categories"));
     }
 }

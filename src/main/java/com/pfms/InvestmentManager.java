@@ -180,7 +180,7 @@ public class InvestmentManager {
         if (User.user != null) {
             this.savings = User.user.getDouble("savings");
         } else {
-            System.out.println("User not found.");
+            System.out.println(PFMS.GREEN + "User not found.");
         }
         
         // Load existing investments from MongoDB
@@ -198,7 +198,7 @@ public class InvestmentManager {
             Document investmentDoc = option.toDocument().append("userId", userId);
             investmentCollection.insertOne(investmentDoc);
         } else {
-            System.out.println("Not enough savings to invest in: " + name);
+            System.out.println(PFMS.GREEN + "Not enough savings to invest in: " + name);
         }
     }
 
@@ -214,14 +214,14 @@ public void investInBestOption() {
     if (bestOption != null) {
         if (bestOption.monthlyInvestment <= savings) {
             savings -= bestOption.monthlyInvestment;
-            System.out.println("savings"+savings);
+            System.out.println(PFMS.GREEN + "savings"+savings);
             userCollection.updateOne(Filters.eq("_id", new ObjectId(userId)), Updates.set("savings", savings));
-            System.out.println("Invested in " + bestOption.name + ".\nRemaining savings: ₹" + savings);
+            System.out.println(PFMS.GREEN + "Invested in " + bestOption.name + ".\nRemaining savings: ₹" + savings);
         } else {
-            System.out.println("Not enough savings to invest in " + bestOption.name);
+            System.out.println(PFMS.GREEN + "Not enough savings to invest in " + bestOption.name);
         }
     } else {
-        System.out.println("No SIPs available to invest in.");
+        System.out.println(PFMS.GREEN + "No SIPs available to invest in.");
     }
 }
 

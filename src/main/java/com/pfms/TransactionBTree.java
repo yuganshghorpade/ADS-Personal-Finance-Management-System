@@ -457,7 +457,7 @@ import com.mongodb.client.model.Updates;
 
 public class TransactionBTree {
 
-    private static final int T = 5; // Minimum degree (defines the range of children for a node)
+    private static final int T = 3; // Minimum degree (defines the range of children for a node)
 
     // B-Tree Node class
     public static class BTreeNode {
@@ -587,7 +587,7 @@ public class TransactionBTree {
     // Method to display the B-Tree (for testing/debugging purposes)
     public void displayTree(ObjectId nodeId, int level) {
         BTreeNode node = getBTreeNode(nodeId);
-        System.out.println("Level " + level + " " + node.keys);
+        System.out.println(PFMS.GREEN + "Level " + level + " " + node.keys);
         if (!node.isLeaf) {
             for (ObjectId childId : node.children) {
                 displayTree(childId, level + 1);
