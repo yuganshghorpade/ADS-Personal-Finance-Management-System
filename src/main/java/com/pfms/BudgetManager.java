@@ -26,12 +26,6 @@ public class BudgetManager {
         MongoDatabase db = MongoDBConnection.connectToDatabase(); // Connect to the database
         MongoCollection<Document> collection = db.getCollection("budgets"); // Get the collection
 
-        // for (Map.Entry<String, Double> entry : budgetCategories.entrySet()) {
-        //     Document doc = new Document("category", entry.getKey())
-        //                     .append("budget", entry.getValue());
-        //     collection.insertOne(doc); // Insert the document into the collection
-        // }
-
         Document userBudgetDocument = new Document("userId",userId)
                 .append("categories", new Document());
 
@@ -47,21 +41,6 @@ public class BudgetManager {
         budgetId = budget.getObjectId("_id");
         System.out.println(PFMS.GREEN + "Budget categories saved to MongoDB successfully.");
     }
-
-    //TODO:
-    public void updateCategory(String category, double expenseAmount) {
-        if (budgetCategories.containsKey(category)) {
-            budgetCategories.put(category, budgetCategories.get(category) - expenseAmount);
-        }
-    }
-
-    // public void getRemainingBudget(String category) {
-    //     MongoDatabase db = MongoDBConnection.connectToDatabase(); // Connect to the database
-    //     MongoCollection<Document> collection = db.getCollection("budgets"); // Get the collection
-    //     Document budget = collection.find(Filters.and(
-    //             Filters.eq("_id", budgetId) // Note: Storing plain text passwords is not secure
-    //     )).first();
-    // }
 
     public void fetchBudget(){
         MongoDatabase db = MongoDBConnection.connectToDatabase(); // Connect to the database
